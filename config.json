@@ -1,0 +1,17 @@
+{
+    "PATH_DATASET_CSV":         "Dataset/Dataset_with_path.csv",
+    "device":                   "mps",
+    "folds":                    [],
+    "gpus":                     [0],
+    "seed":                     1010,
+    "Data_dir":                 "Dataset/",
+    "Data_dir_ex":              ["data/ADNI1/"],
+    "cnn": {
+        "fil_num":              10,
+        "drop_rate":            0.137,
+        "batch_size":           4,
+        "balanced":             0,
+        "learning_rate":        0.0001,
+        "train_epochs":         300
+    }
+}
