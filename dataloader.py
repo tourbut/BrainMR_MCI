@@ -4,6 +4,8 @@ import pydicom as dcm
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import ndimage
+from sklearn.model_selection import train_test_split
+import pandas as pd
 
 def read_dicom_file(source,filepath):
     """Read and load volume"""
@@ -42,3 +44,19 @@ def sample_stack(stack,rows=6,cols=6,start_with=10,show_every=5,subtitle='title'
 def load_dataset(df_dataset):
     img_dataset = np.array([process_scan(source,path) for source,path in np.array(df_dataset[['source','path']])])
     return img_dataset
+
+def dataset_split(df_dataset,test_size=0.2,shuffle=True,grp=None,seed=1004):
+    df_dataset['grp'] = (df_dataset['source'].str.replace('OASIS-3','1').str.replace('ADNI','2').apply(pd.to_numeric)*1000 
+                     + df_dataset['sex'].str.replace('F','1').str.replace('M','2').apply(pd.to_numeric)*100
+                     + df_dataset['group_maxinc'].str.replace('CN','1').str.replace('MCI','2').str.replace('AD','3').apply(pd.to_numeric)*10
+                     #+ (df_dataset['age'] // 10)
+                     )
+                     
+    X = df_dataset.drop(labels='group_maxinc',axis=1)
+    Y = df_dataset['group_maxinc']
+    grp = df_dataset['grp']
+
+    X_train,X_test,y_train,y_test = train_test_split(X,Y,test_size=0.2,shuffle=True,stratify=grp,random_state=seed)
+
+    return X_train,X_test,y_train,y_test
+

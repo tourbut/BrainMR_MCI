@@ -1,5 +1,5 @@
 {
-    "PATH_DATASET_CSV":         "Dataset/Dataset_with_path.csv",
+    "PATH_DATASET_CSV":         "Dataset/Dataset_min.csv",
     "device":                   "mps",
     "folds":                    [],
     "gpus":                     [0],
