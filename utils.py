@@ -36,3 +36,6 @@ def stack_plot(stack,rows=6,cols=6,start_with=10,show_every=5,subtitle='title'):
         ax[int(i / rows),int(i % rows)].imshow(stack[:,:,ind],cmap='gray')
         ax[int(i / rows),int(i % rows)].axis('off')
     plt.show()
+
+def image_plot(img):
+    plt.imshow(img,cmap='gray')
