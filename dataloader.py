@@ -1,4 +1,5 @@
 #패키지
+from tkinter.tix import Tree
 import SimpleITK as sitk
 import pydicom as dcm
 import numpy as np
@@ -6,6 +7,7 @@ import matplotlib.pyplot as plt
 from scipy import ndimage
 from sklearn.model_selection import train_test_split
 import pandas as pd
+import preprocessing as ppc
 
 def read_dicom_file(source,filepath):
     """Read and load volume"""
@@ -23,12 +25,14 @@ def read_dicom_file(source,filepath):
     return image
 
 def preprocessing(image):
-
+    image = ppc.crop_image(image)
+    image = ppc.add_pad(image)
     return image
 
-def process_scan(source, filepath):
+def process_scan(source, filepath, preprocess= True):
     image = read_dicom_file(source, filepath)
-    image = preprocessing(image)
+    if preprocess == True:
+        image = preprocessing(image)
     return image
 
 def sample_stack(stack,rows=6,cols=6,start_with=10,show_every=5,subtitle='title'):
@@ -41,8 +45,10 @@ def sample_stack(stack,rows=6,cols=6,start_with=10,show_every=5,subtitle='title'
         ax[int(i / rows),int(i % rows)].axis('off')
     plt.show()
 
-def load_dataset(df_dataset):
-    img_dataset = np.array([process_scan(source,path) for source,path in np.array(df_dataset[['source','path']])])
+def load_dataset(df_dataset,preprocess = True):
+    
+    img_dataset = np.array([process_scan(source,path,preprocess) for source,path in np.array(df_dataset[['source','path']])])
+    
     return img_dataset
 
 def dataset_split(df_dataset,test_size=0.2,shuffle=True,grp=None,seed=1004):
