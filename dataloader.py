@@ -3,7 +3,6 @@
 import SimpleITK as sitk
 import pydicom as dcm
 import numpy as np
-import matplotlib.pyplot as plt
 from scipy import ndimage
 from sklearn.model_selection import train_test_split
 import pandas as pd
@@ -35,16 +34,6 @@ def process_scan(source, filepath, preprocess= True):
         image = preprocessing(image)
     return image
 
-def sample_stack(stack,rows=6,cols=6,start_with=10,show_every=5,subtitle='title'):
-    fig,ax = plt.subplots(rows,cols,figsize=[12,12])
-    plt.suptitle(subtitle)
-    for i in range(rows*cols):
-        ind = start_with = i*show_every
-        ax[int(i / rows),int(i % rows)].set_title('slice %d'%ind)
-        ax[int(i / rows),int(i % rows)].imshow(stack[:,:,ind],cmap='gray')
-        ax[int(i / rows),int(i % rows)].axis('off')
-    plt.show()
-
 def load_dataset(df_dataset,preprocess = True):
     
     img_dataset = np.array([process_scan(source,path,preprocess) for source,path in np.array(df_dataset[['source','path']])])
@@ -62,7 +51,23 @@ def dataset_split(df_dataset,test_size=0.2,shuffle=True,grp=None,seed=1004):
     Y = df_dataset['group_maxinc']
     grp = df_dataset['grp']
 
-    X_train,X_test,y_train,y_test = train_test_split(X,Y,test_size=0.2,shuffle=True,stratify=grp,random_state=seed)
+    X_train,X_test,y_train,y_test = train_test_split(X,Y,test_size=test_size,shuffle=True,stratify=grp,random_state=seed)
 
     return X_train,X_test,y_train,y_test
 
+from torch.utils.data import Dataset
+
+class MRIDataset(Dataset):
+    def __init__(self, dataset,labels):
+        self.df_train = dataset[['source','path','filename','age']]
+        self.df_labels = labels
+
+    def __len__(self):
+        return len(self.img_labels)
+
+    def __getitem__(self, idx):
+        img_path = self.df_train['path'][idx]
+        img_source = self.df_train['source'][idx]
+        image = process_scan(img_source,img_path)
+        label = self.df_labels[idx]
+        return image, label
