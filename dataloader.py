@@ -63,7 +63,7 @@ class MRIDataset(Dataset):
         self.df_labels = labels
 
     def __len__(self):
-        return len(self.img_labels)
+        return len(self.df_train)
 
     def __getitem__(self, idx):
         img_path = self.df_train['path'][idx]
