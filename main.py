@@ -7,18 +7,20 @@ def load_config():
     return config
 
 if __name__ == "__main__":
-    print('hello world')
     config = load_config()
 
     device_mode = config['device']
-    print(config['PATH_DATASET_CSV'])
-    
+    print('PROJECT_NAME: ',config['PROJECT_NAME'],'\n')
+
     device = torch.device(device_mode)
     print(f" - device : {device}")
+
     sample = torch.Tensor([[10, 20, 30], [30, 20, 10]])
     print(f" - cpu tensor : ")
+
     print(sample)
     sample = sample.to(device)
     print(f" - gpu tensor : ")
+    
     print(sample)
 

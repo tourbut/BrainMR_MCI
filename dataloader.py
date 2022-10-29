@@ -1,5 +1,5 @@
 #패키지
-from tkinter.tix import Tree
+
 import SimpleITK as sitk
 import pydicom as dcm
 import numpy as np
