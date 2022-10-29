@@ -1,5 +1,4 @@
 #패키지
-
 import SimpleITK as sitk
 import pydicom as dcm
 import numpy as np
@@ -55,8 +54,9 @@ def dataset_split(df_dataset,test_size=0.2,shuffle=True,grp=None,seed=1004):
 
     return X_train,X_test,y_train,y_test
 
-from torch.utils.data import Dataset
 
+#Dataset Class 
+from torch.utils.data import Dataset
 class MRIDataset(Dataset):
     def __init__(self, dataset,labels):
         self.df_train = dataset[['source','path','filename','age']]
