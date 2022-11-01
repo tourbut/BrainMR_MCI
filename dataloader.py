@@ -25,6 +25,7 @@ def read_dicom_file(source,filepath):
 def preprocessing(image):
     image = ppc.crop_image(image)
     image = ppc.add_pad(image)
+    image = ppc.z_score(image)
     return image
 
 def process_scan(source, filepath, preprocess= True):
@@ -66,8 +67,8 @@ class MRIDataset(Dataset):
         return len(self.df_train)
 
     def __getitem__(self, idx):
-        img_path = self.df_train['path'][idx]
-        img_source = self.df_train['source'][idx]
+        img_path = self.df_train['path'].iloc[idx]
+        img_source = self.df_train['source'].iloc[idx]
         image = process_scan(img_source,img_path)
-        label = self.df_labels[idx]
+        label = self.df_labels.iloc[idx]
         return image, label
