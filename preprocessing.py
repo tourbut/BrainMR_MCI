@@ -22,3 +22,13 @@ def add_pad(image, new_height=256, new_width=256):
     final_image[pad_top:pad_top + height, pad_left:pad_left + width,:] = image
     
     return final_image
+
+def z_score(image):
+    """
+    z-score nomalization
+    """
+    mask_image = image>image.mean()
+    logical_mask = mask_image>0.
+    mean = image[logical_mask].mean()
+    std = image[logical_mask].std()
+    return (image-mean)/std

@@ -32,6 +32,8 @@ def process_scan(source, filepath, preprocess= True):
     image = read_dicom_file(source, filepath)
     if preprocess == True:
         image = preprocessing(image)
+    
+    image = image.astype('float32')
     return image
 
 def load_dataset(df_dataset,preprocess = True):
