@@ -6,6 +6,7 @@ from scipy import ndimage
 from sklearn.model_selection import train_test_split
 import pandas as pd
 import preprocessing as ppc
+import torch
 
 def read_dicom_file(source,filepath):
     """Read and load volume"""
@@ -32,8 +33,6 @@ def process_scan(source, filepath, preprocess= True):
     image = read_dicom_file(source, filepath)
     if preprocess == True:
         image = preprocessing(image)
-    
-    image = image.astype('float32')
     return image
 
 def load_dataset(df_dataset,preprocess = True):
@@ -71,6 +70,11 @@ class MRIDataset(Dataset):
     def __getitem__(self, idx):
         img_path = self.df_train['path'].iloc[idx]
         img_source = self.df_train['source'].iloc[idx]
+
+        channels = []
         image = process_scan(img_source,img_path)
-        label = self.df_labels.iloc[idx]
-        return image, label
+        channels.append(image)
+        images = np.array(channels)
+        label = self.df_labels.iloc[idx].replace('MCI','1').replace('CN','0').replace('AD','2')
+        label = int(label)
+        return torch.tensor(images).float(), torch.tensor(label)

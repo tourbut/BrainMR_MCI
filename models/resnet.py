@@ -118,7 +118,7 @@ class ResNet(nn.Module):
         self.inplanes = 64
         super(ResNet, self).__init__()
         self.conv1 = nn.Conv3d(
-            3,
+            1,
             64,
             kernel_size=7,
             stride=(1, 2, 2),
@@ -138,7 +138,7 @@ class ResNet(nn.Module):
         last_size = int(math.ceil(sample_size / 32))
         self.avgpool = nn.AvgPool3d(
             (last_duration, last_size, last_size), stride=1)
-        self.fc = nn.Linear(512 * block.expansion, num_classes)
+        self.fc = nn.Linear(512 * 400, num_classes)
 
         for m in self.modules():
             if isinstance(m, nn.Conv3d):
@@ -184,8 +184,9 @@ class ResNet(nn.Module):
         x = self.layer4(x)
 
         x = self.avgpool(x)
-
+        print(x.shape)
         x = x.view(x.size(0), -1)
+        print(x.shape)
         x = self.fc(x)
 
         return x
