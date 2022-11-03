@@ -50,7 +50,8 @@ def dataset_split(df_dataset,test_size=0.2,shuffle=True,grp=None,seed=1004):
                      
     X = df_dataset.drop(labels='group_maxinc',axis=1)
     Y = df_dataset['group_maxinc']
-    grp = df_dataset['grp']
+    if grp != None:
+        grp = df_dataset['grp']
 
     X_train,X_test,y_train,y_test = train_test_split(X,Y,test_size=test_size,shuffle=True,stratify=grp,random_state=seed)
 
