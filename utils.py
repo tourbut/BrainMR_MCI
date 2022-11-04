@@ -39,3 +39,24 @@ def stack_plot(stack,rows=6,cols=6,start_with=10,show_every=5,subtitle='title'):
 
 def image_plot(img):
     plt.imshow(img,cmap='gray')
+    
+    
+class Logger(object):
+    def __init__(self, path, header):
+        self.log_file = open(path, 'w')
+        self.logger = csv.writer(self.log_file, delimiter='\t')
+
+        self.logger.writerow(header)
+        self.header = header
+        
+    def __del(self):
+        self.log_file.close()
+        
+    def log(self, values):
+        write_values = []
+        for col in self.header:
+            assert col in values
+            write_values.append(values[col])
+
+        self.logger.writerow(write_values)
+        self.log_file.flush()
