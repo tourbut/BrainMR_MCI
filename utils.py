@@ -100,17 +100,6 @@ class ProgressMeter(object):
         fmt = '{:' + str(num_digits) + 'd}'
         return '[' + fmt + '/' + fmt.format(num_batches) + ']'
 
-
-def calculate_accuracy(output, target):
-    """Computes the precision@k for the specified values of k"""
-
-    _, pred = output.topk(1, 1, True, True)
-    pred = pred.t()
-    correct = pred.eq(target.view(1, -1).expand_as(pred))
-    res = correct[:1].view(-1).float().sum(0)
-    return res
-
-
 def save_checkpoint(state, is_best, opt):
     torch.save(state, '%s/%s_checkpoint.pth' % (opt.result_path, opt.store_name))
     if is_best:

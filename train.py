@@ -1,6 +1,8 @@
 from torch.autograd import Variable
 import time
 
+from metrics import accuracy
+
 from utils import *
 
 def train_epoch(device, epoch, data_loader, model, criterion, optimizer, 
@@ -12,7 +14,6 @@ def train_epoch(device, epoch, data_loader, model, criterion, optimizer,
     data_time = AverageMeter(name='data_time')
     losses = AverageMeter(name='losses')
     top1 = AverageMeter(name='top1')
-    top2 = AverageMeter(name='top2')
 
     end_time = time.time()
     for i, (inputs, targets) in enumerate(data_loader):
@@ -27,7 +28,7 @@ def train_epoch(device, epoch, data_loader, model, criterion, optimizer,
         loss = criterion(outputs, targets)
 
         losses.update(loss.data, inputs.size(0))
-        acc = calculate_accuracy(outputs.data, targets.data)
+        acc = accuracy(outputs.data, targets.data)
         top1.update(acc, inputs.size(0))
 
         optimizer.zero_grad()
