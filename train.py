@@ -12,7 +12,7 @@ def train_epoch(device, epoch, data_loader, model, criterion, optimizer,
     data_time = AverageMeter(name='data_time')
     losses = AverageMeter(name='losses')
     top1 = AverageMeter(name='top1')
-    top5 = AverageMeter(name='top5')
+    top2 = AverageMeter(name='top2')
 
     end_time = time.time()
     for i, (inputs, targets) in enumerate(data_loader):
