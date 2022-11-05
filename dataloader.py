@@ -10,9 +10,12 @@ import torch
 
 def read_dicom_file(source,filepath):
     """Read and load volume"""
-    sitk_t1 = sitk.ReadImage(filepath)
-    sitk_t1.SetDirection([1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0])
-    image = sitk.GetArrayFromImage(sitk_t1)
+    try:
+        sitk_t1 = sitk.ReadImage(filepath)
+        sitk_t1.SetDirection([1.0,0.0,0.0,0.0,1.0,0.0,0.0,0.0,1.0])
+        image = sitk.GetArrayFromImage(sitk_t1)
+    except:
+        print(filepath)
 
     if source=='OASIS-3':
         #Oasis rotate, sort
