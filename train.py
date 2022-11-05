@@ -28,7 +28,7 @@ def train_epoch(device, epoch, data_loader, model, criterion, optimizer,
         loss = criterion(outputs, targets)
 
         losses.update(loss.data, inputs.size(0))
-        acc = accuracy(outputs.data, targets.data)
+        acc = accuracy(outputs.data, targets.data).to(device)
         top1.update(acc, inputs.size(0))
 
         optimizer.zero_grad()
