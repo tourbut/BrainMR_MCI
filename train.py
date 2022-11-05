@@ -19,16 +19,13 @@ def train_epoch(device, epoch, data_loader, model, criterion, optimizer,
     for i, (inputs, targets) in enumerate(data_loader):
         data_time.update(time.time() - end_time)
 
-        inputs = inputs.to(device)
-        targets = targets.to(device)
-
-        inputs = Variable(inputs)
-        targets = Variable(targets)
+        inputs = Variable(inputs).to(device)
+        targets = Variable(targets).to(device)
         outputs = model(inputs)
         loss = criterion(outputs, targets)
 
         losses.update(loss.data, inputs.size(0))
-        acc = accuracy(outputs.data, targets.data).to(device)
+        acc = accuracy(outputs.data, targets.data,device=device)
         top1.update(acc, inputs.size(0))
 
         optimizer.zero_grad()
