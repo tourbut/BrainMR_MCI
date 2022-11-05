@@ -42,7 +42,7 @@ def train_epoch(device, epoch, data_loader, model, criterion, optimizer,
             'batch': i + 1,
             'iter': (epoch - 1) * len(data_loader) + (i + 1),
             'loss': losses.val.item(),
-            'prec': top1.val.item(),
+            'acc': top1.val.item(),
             'lr': optimizer.param_groups[0]['lr']
         })
         if i % 10 ==0:
