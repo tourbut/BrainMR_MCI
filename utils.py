@@ -1,7 +1,8 @@
 import json
 import csv
 import matplotlib.pyplot as plt
-
+import torch
+import shutil
 
 def load_txt(txt_dir, txt_name):
     List = []
@@ -100,7 +101,7 @@ class ProgressMeter(object):
         fmt = '{:' + str(num_digits) + 'd}'
         return '[' + fmt + '/' + fmt.format(num_batches) + ']'
 
-def save_checkpoint(state, is_best, opt):
-    torch.save(state, '%s/%s_checkpoint.pth' % (opt.result_path, opt.store_name))
+def save_checkpoint(state, is_best, config):
+    torch.save(state, '%s/%s_checkpoint.pth' % (config['result_path'], config['store_name']))
     if is_best:
-        shutil.copyfile('%s/%s_checkpoint.pth' % (opt.result_path, opt.store_name),'%s/%s_best.pth' % (opt.result_path, opt.store_name))
+        shutil.copyfile('%s/%s_checkpoint.pth' % (config['result_path'], config['store_name']),'%s/%s_best.pth' % (config['result_path'], config['store_name']))
