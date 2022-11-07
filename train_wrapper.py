@@ -7,11 +7,13 @@ import datetime
 def train_epoch(device,train_dataloader,valid_dataloader,model,criterion_clf,optimizer,config, epoch = 100):
     
     log_path = config['log_path']
-    log_date = datetime.datetime.now().strftime("%Y%m%d")
-    
-    train_logger = utils.Logger(os.path.join(log_path, log_date+'_train.log'),['epoch', 'loss','acc', 'lr'])
-    train_batch_logger = utils.Logger(os.path.join(log_path, log_date+'_train_batch.log'), ['epoch', 'batch', 'iter', 'loss','acc', 'lr'])
-    valid_logger = utils.Logger(os.path.join(log_path, log_date+'_valid.log'),['epoch', 'loss','acc'])
+    log_date = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+    store_name = config['store_name']
+    store_name = store_name+'_'+log_date
+
+    train_logger = utils.Logger(os.path.join(log_path, store_name+'_train.log'),['epoch', 'loss','acc', 'lr'])
+    train_batch_logger = utils.Logger(os.path.join(log_path, store_name+'_train_batch.log'), ['epoch', 'batch', 'iter', 'loss','acc', 'lr'])
+    valid_logger = utils.Logger(os.path.join(log_path, store_name+'_valid.log'),['epoch', 'loss','acc'])
     
     best_acc = 0
     

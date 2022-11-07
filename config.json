@@ -7,8 +7,8 @@
     "seed":                     1010,
     "model_name":               "resnet",
     "model_depth":              10,
-    "result_path":              "result",
-    "store_name":               "resnet",
+    "result_path":              "result/",
+    "store_name":               "resnet10",
     "dataloader": {
         "num_workers":          16,
         "pin_memory":           1,
