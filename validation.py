@@ -6,7 +6,7 @@ from metrics import accuracy
 from utils import *
 
 def validation(device, epoch, data_loader, model, criterion, logger):
-    print('train at epoch {}'.format(epoch))
+    print('valid at epoch {}'.format(epoch))
 
     model.eval()
     batch_time = AverageMeter(name='batch_time')
@@ -33,7 +33,7 @@ def validation(device, epoch, data_loader, model, criterion, logger):
         end_time = time.time()
 
         if i % 10 == 0:
-            print('Epoch: [{0}][{1}/{2}]\t lr: {lr:.5f}\t'
+            print('Epoch: [{0}][{1}/{2}]\t '
                   'Time {batch_time.val:.3f} ({batch_time.avg:.3f})\t'
                   'Data {data_time.val:.3f} ({data_time.avg:.3f})\t'
                   'Loss {loss.val:.4f} ({loss.avg:.4f})\t'
@@ -51,4 +51,5 @@ def validation(device, epoch, data_loader, model, criterion, logger):
         'loss': losses.avg.item(),
         'acc': accuracies.avg.item()
     })
+    
     return losses.avg.item(), accuracies.avg.item()

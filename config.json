@@ -9,10 +9,14 @@
     "model_depth":              10,
     "result_path":              "result",
     "store_name":               "resnet",
+    "dataloader": {
+        "num_workers":          16,
+        "pin_memory":           1,
+        "batch_size":           16
+    },
     "train": {
         "fil_num":              10,
         "drop_rate":            0.137,
-        "batch_size":           16,
         "balanced":             0,
         "learning_rate":        0.001,
         "train_epochs":         300
