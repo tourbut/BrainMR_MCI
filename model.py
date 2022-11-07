@@ -1,4 +1,4 @@
-from model import resnet
+from models import resnet
 import torch
 import torch.nn as nn
 import torch.optim as optim
