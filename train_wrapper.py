@@ -1,5 +1,5 @@
 from train import train
-import validation
+from validation import validation
 import utils
 import os
 import datetime
@@ -9,9 +9,9 @@ def train_epoch(device,train_dataloader,valid_dataloader,model,criterion_clf,opt
     log_path = config['log_path']
     log_date = datetime.datetime.now().strftime("%Y%m%d")
     
-    train_logger = utils.Logger(os.path.join(log_path, log_date+'train.log'),['epoch', 'loss','acc', 'lr'])
-    train_batch_logger = utils.Logger(os.path.join(log_path, log_date+'train_batch.log'), ['epoch', 'batch', 'iter', 'loss','acc', 'lr'])
-    valid_logger = utils.Logger(os.path.join(log_path, log_date+'valid.log'),['epoch', 'loss','acc'])
+    train_logger = utils.Logger(os.path.join(log_path, log_date+'_train.log'),['epoch', 'loss','acc', 'lr'])
+    train_batch_logger = utils.Logger(os.path.join(log_path, log_date+'_train_batch.log'), ['epoch', 'batch', 'iter', 'loss','acc', 'lr'])
+    valid_logger = utils.Logger(os.path.join(log_path, log_date+'_valid.log'),['epoch', 'loss','acc'])
     
     best_acc = 0
     
