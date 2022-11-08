@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-def generate_model(model_name = 'resnet',model_depth = 10,n_classes=3,resnet_shortcut='B',sample_size=112,sample_duration=16):
+def generate_model(model_name = 'resnet',model_depth = 10,n_classes=3,resnet_shortcut='B'):
     '''
         model_name = resnet,
         model_depth = 10,
@@ -15,45 +15,31 @@ def generate_model(model_name = 'resnet',model_depth = 10,n_classes=3,resnet_sho
     if model_depth == 10:
         model = resnet.resnet10(
             num_classes=n_classes,
-            shortcut_type=resnet_shortcut,
-            sample_size=sample_size,
-            sample_duration=sample_duration)
+            shortcut_type=resnet_shortcut)
     elif model_depth == 18:
         model = resnet.resnet18(
             num_classes=n_classes,
-            shortcut_type=resnet_shortcut,
-            sample_size=sample_size,
-            sample_duration=sample_duration)
+            shortcut_type=resnet_shortcut)
     elif model_depth == 34:
         model = resnet.resnet34(
             num_classes=n_classes,
-            shortcut_type=resnet_shortcut,
-            sample_size=sample_size,
-            sample_duration=sample_duration)
+            shortcut_type=resnet_shortcut)
     elif model_depth == 50:
         model = resnet.resnet50(
             num_classes=n_classes,
-            shortcut_type=resnet_shortcut,
-            sample_size=sample_size,
-            sample_duration=sample_duration)
+            shortcut_type=resnet_shortcut)
     elif model_depth == 101:
         model = resnet.resnet101(
             num_classes=n_classes,
-            shortcut_type=resnet_shortcut,
-            sample_size=sample_size,
-            sample_duration=sample_duration)
+            shortcut_type=resnet_shortcut)
     elif model_depth == 152:
         model = resnet.resnet152(
             num_classes=n_classes,
-            shortcut_type=resnet_shortcut,
-            sample_size=sample_size,
-            sample_duration=sample_duration)
+            shortcut_type=resnet_shortcut)
     elif model_depth == 200:
         model = resnet.resnet200(
             num_classes=n_classes,
-            shortcut_type=resnet_shortcut,
-            sample_size=sample_size,
-            sample_duration=sample_duration)
+            shortcut_type=resnet_shortcut)
     
     model.name = model_name+str(model_depth)
 
