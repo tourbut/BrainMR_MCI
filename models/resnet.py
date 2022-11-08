@@ -138,7 +138,8 @@ class ResNet(nn.Module):
         last_size = int(math.ceil(sample_size / 32))
         self.avgpool = nn.AvgPool3d(
             (last_duration, last_size, last_size), stride=1)
-        self.fc = nn.Linear(512 * 8, num_classes)
+        self.adaptpool = nn.AdaptiveAvgPool3d((1,1,1))
+        self.fc = nn.Linear(512 * block.expansion, num_classes) 
 
         for m in self.modules():
             if isinstance(m, nn.Conv3d):
@@ -182,8 +183,7 @@ class ResNet(nn.Module):
         x = self.layer2(x)
         x = self.layer3(x)
         x = self.layer4(x)
-
-        x = self.avgpool(x)
+        x = self.adaptpool(x)
         x = x.view(x.size(0), -1)
         x = self.fc(x)
 
