@@ -1,17 +1,18 @@
 from torch.autograd import Variable
 import time
 
-from metrics import accuracy
+from metrics import accuracy,roc_auc_score,roc_curve,auc
 
 from utils import *
 
-def test(device, data_loader, model, criterion, logger):
+def test(device, data_loader, model, logger,n_classes=3):
     print('test')
 
     model.eval()
-    losses = AverageMeter(name='losses')
     accuracies = AverageMeter(name='accuracies')
-
+    
+    y_score=[]
+    y_test=[]
     for i, (inputs, targets) in enumerate(data_loader):
 
         with torch.no_grad():
@@ -19,18 +20,30 @@ def test(device, data_loader, model, criterion, logger):
             targets = Variable(targets).to(device)
             
         outputs = model(inputs)
-        loss = criterion(outputs, targets)
-
-        losses.update(loss.data, inputs.size(0))
+        
+        y_test.append(targets.data)
+        y_score.append(outputs.data)
+        
         acc = accuracy(outputs.data, targets.data,device=device)
         accuracies.update(acc, inputs.size(0))
+        print(acc)
 
+    # ROC & AUC
+    fpr = dict()
+    tpr = dict()
+    roc_auc = dict()
+    
+    for i in range(n_classes):
+        fpr[i], tpr[i], _ = roc_curve(y_test[:, i], y_score[:, i])
+        roc_auc[i] = auc(fpr[i], tpr[i])
 
-    print('Loss {loss.avg:.4f}, acc {acc.avg:.5f}'.format(loss=losses, acc=accuracies))
+    score = roc_auc_score(y_test, y_score, multi_class='raise')
+    print('acc {acc.avg:.5f}'.format(acc=accuracies))
+    print('score : ',score)
 
     logger.log({
-        'loss': losses.avg.item(),
-        'acc': accuracies.avg.item()
+        'acc': accuracies.avg.item(),
+        'score': score
     })
     
-    return losses.avg.item(), accuracies.avg.item()
+    return roc_auc, score

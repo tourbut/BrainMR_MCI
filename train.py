@@ -9,7 +9,7 @@ def train(device, epoch, data_loader, model, criterion, optimizer,
                 epoch_logger, batch_logger):
     print('train at epoch {}'.format(epoch))
 
-    model.train()
+    model.train(True)
     batch_time = AverageMeter(name='batch_time')
     data_time = AverageMeter(name='data_time')
     losses = AverageMeter(name='losses')
