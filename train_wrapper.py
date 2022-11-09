@@ -36,5 +36,5 @@ def train_epoch(device,train_dataloader,valid_dataloader,model,criterion_clf,opt
         best_acc = max(val_acc,best_acc)
 
         #모델 세이브
-        utils.save_checkpoint(state, best_acc, config)
+        utils.save_checkpoint(state, is_best, config)
         
