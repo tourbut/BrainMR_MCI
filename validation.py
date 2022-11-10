@@ -41,5 +41,11 @@ def validation(device, epoch, data_loader, model, criterion, logger):
         'loss': losses.avg.item(),
         'acc': accuracies.avg.item()
     })
+    print('Epoch: [{0}]\t '
+        'Loss : {loss.avg:.4f}\t'
+        'Acc : {acc.avg:.5f}\t'.format(
+            epoch,
+            loss=losses,
+            acc=accuracies))
     
     return losses.avg.item(), accuracies.avg.item()
