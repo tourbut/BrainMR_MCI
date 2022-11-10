@@ -54,4 +54,4 @@ def train(device, epoch, data_loader, model, criterion, optimizer,
         'acc': accuracies.avg.item(),
         'lr': optimizer.param_groups[0]['lr']
     })
-    return losses.avg.item(), accuracies.avg.item()
+    return model, losses.avg.item(), accuracies.avg.item()
