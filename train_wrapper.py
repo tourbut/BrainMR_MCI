@@ -18,7 +18,7 @@ def train_epoch(device,train_dataloader,valid_dataloader,model,criterion_clf,opt
     best_acc = 0
     
     for i in range(epoch):
-        loss, acc = train(device,i,train_dataloader,model,criterion_clf,optimizer,train_logger,train_batch_logger)
+        model, loss, acc = train(device,i,train_dataloader,model,criterion_clf,optimizer,train_logger,train_batch_logger)
         
         state = {
                 'epoch': i,
