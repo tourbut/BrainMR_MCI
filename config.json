@@ -3,10 +3,9 @@
     "PATH_DATASET_CSV":         "Dataset/Dataset_min.csv",
     "log_path":                 "log/",
     "device":                   "gpu",
-    "gpus":                     [0],
+    "gpus":                     [0,1],
     "seed":                     1010,
     "result_path":              "result/",
-    "store_name":               "resnet18",
     "dataloader": {
         "num_workers":          16,
         "pin_memory":           1,
@@ -14,12 +13,9 @@
     },
     "model": {
         "model_name":               "resnet",
-        "model_depth":              18
+        "model_depth":              50
     },
     "train": {
-        "fil_num":              10,
-        "drop_rate":            0.137,
-        "balanced":             0,
         "learning_rate":        0.001,
         "train_epochs":         300
     }
