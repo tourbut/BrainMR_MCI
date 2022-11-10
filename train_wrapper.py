@@ -3,6 +3,8 @@ from validation import validation
 import utils
 import os
 import datetime
+import torch.nn as nn
+
 
 def train_epoch(device,train_dataloader,valid_dataloader,model,criterion_clf,optimizer,config, epoch = 100):
     
