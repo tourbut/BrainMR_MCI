@@ -102,6 +102,11 @@ class ProgressMeter(object):
         return '[' + fmt + '/' + fmt.format(num_batches) + ']'
 
 def save_checkpoint(state, is_best, config):
-    torch.save(state, '%s/%s_checkpoint.pth' % (config['result_path'], config['store_name']))
+
+    model_name = config['model']['model_name']
+    model_depth = config['model']['model_depth']
+    store_name = model_name + str(model_depth)
+
+    torch.save(state, '%s/%s_checkpoint.pth' % (config['result_path'], store_name))
     if is_best:
-        shutil.copyfile('%s/%s_checkpoint.pth' % (config['result_path'], config['store_name']),'%s/%s_best.pth' % (config['result_path'], config['store_name']))
+        shutil.copyfile('%s/%s_checkpoint.pth' % (config['result_path'], store_name),'%s/%s_best.pth' % (config['result_path'], store_name))

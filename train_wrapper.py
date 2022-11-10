@@ -8,7 +8,9 @@ def train_epoch(device,train_dataloader,valid_dataloader,model,criterion_clf,opt
     
     log_path = config['log_path']
     log_date = datetime.datetime.now().strftime("%Y%m%d_%H%M")
-    store_name = config['store_name']
+    model_name = config['model']['model_name']
+    model_depth = config['model']['model_depth']
+    store_name = model_name + str(model_depth)
     store_name = store_name+'_'+log_date
 
     train_logger = utils.Logger(os.path.join(log_path, store_name+'_train.log'),['epoch', 'loss','acc', 'lr'])
@@ -34,5 +36,5 @@ def train_epoch(device,train_dataloader,valid_dataloader,model,criterion_clf,opt
         best_acc = max(val_acc,best_acc)
 
         #모델 세이브
-        utils.save_checkpoint(state, best_acc, config)
+        utils.save_checkpoint(state, is_best, config)
         
