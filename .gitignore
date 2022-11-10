@@ -11,3 +11,5 @@
 #venv
 /pymain/
 /pyenv/
+
+config.json
