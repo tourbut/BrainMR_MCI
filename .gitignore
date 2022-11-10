@@ -13,3 +13,5 @@
 /pyenv/
 
 config.json
+
+*.pth
