@@ -22,9 +22,15 @@ def train_epoch(device,train_dataloader,valid_dataloader,model,criterion_clf,opt
     for i in range(epoch):
         model, loss, acc = train(device,i,train_dataloader,model,criterion_clf,optimizer,train_logger,train_batch_logger)
         
+        ## model save
+        if isinstance(model, nn.DataParallel): ## 다중 GPU를 사용한다면
+            state_dict = model.module.state_dict() ## model.module 형태로 module.을 제거하고 저장
+        else:
+            state_dict = model.state_dict() ## 일반저장
+
         state = {
                 'epoch': i,
-                'state_dict': model.state_dict(),
+                'state_dict': state_dict,
                 'optimizer': optimizer.state_dict(),
                 'loss': loss,
                 'acc': acc
