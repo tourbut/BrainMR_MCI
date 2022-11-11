@@ -65,9 +65,10 @@ def dataset_split(df_dataset,test_size=0.2,shuffle=True,grp=None,seed=1004):
 #Dataset Class 
 from torch.utils.data import Dataset
 class MRIDataset(Dataset):
-    def __init__(self, dataset,labels):
+    def __init__(self, dataset,labels,transform=None):
         self.df_train = dataset[['source','path','filename','age']]
         self.df_labels = labels
+        self.transform = transform
 
     def __len__(self):
         return len(self.df_train)
@@ -82,4 +83,8 @@ class MRIDataset(Dataset):
         images = np.array(channels)
         label = self.df_labels.iloc[idx].replace('MCI','1').replace('CN','0').replace('AD','2')
         label = int(label)
+        
+        if self.transform:
+            images = self.transform(images)
+            
         return torch.tensor(images).float(), torch.tensor(label)
