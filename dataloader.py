@@ -57,7 +57,7 @@ def dataset_split(df_dataset,test_size=0.2,shuffle=True,grp=None,seed=1004):
     if grp == None:
         grp = df_dataset['grp']
 
-    X_train,X_test,y_train,y_test = train_test_split(X,Y,test_size=test_size,shuffle=True,stratify=grp,random_state=seed)
+    X_train,X_test,y_train,y_test = train_test_split(X,Y,test_size=test_size,shuffle=shuffle,stratify=grp,random_state=seed)
 
     return X_train,X_test,y_train,y_test
 

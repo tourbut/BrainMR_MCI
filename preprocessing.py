@@ -35,6 +35,15 @@ def z_score(image):
     std = image[logical_mask].std()
     return (image-mean)/std
 
+def normalize(volume, min = -500, max = 700):
+    """Normalize the volume"""
+    
+    volume[volume < min] = min
+    volume[volume > max] = max
+    volume = (volume - min) / (max - min)
+    volume = volume.astype("float32")
+    return volume
+
 def resize(img,desired_width=128,desired_height=128,desired_depth=128):
 
     current_depth = img.shape[-1]
