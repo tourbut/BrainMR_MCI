@@ -39,7 +39,7 @@ def train(device, epoch, data_loader, model, criterion, optimizer,
             'lr': optimizer.param_groups[0]['lr']
         })
         if i % 10 ==0:
-            print('Epoch: [{0}][{1}/{2}]\t lr: {lr:.5f}\t'
+            print('Epoch: [{0}][{1}/{2}]\t lr: {lr:.10f}\t'
                   'Loss : {loss.avg:.4f}\t'
                   'Acc : {acc.avg:.5f}\t'.format(
                       epoch,
