@@ -25,6 +25,7 @@ def train(device, epoch, data_loader, model, criterion, optimizer,
         accuracies.update(acc, inputs.size(0))
         losses.update(loss.data, inputs.size(0))
 
+        model.zero_grad()
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()

@@ -4,9 +4,9 @@ import utils
 import os
 import datetime
 import torch.nn as nn
+from optimizer import adjust_learning_rate
 
-
-def train_epoch(device,train_dataloader,valid_dataloader,model,criterion_clf,optimizer,config, epoch = 100):
+def train_epoch(device,train_dataloader,valid_dataloader,model,criterion_clf,optimizer,config, epoch,learning_rate,lr_steps):
     
     log_path = config['log_path']
     log_date = datetime.datetime.now().strftime("%Y%m%d_%H%M")
@@ -22,6 +22,9 @@ def train_epoch(device,train_dataloader,valid_dataloader,model,criterion_clf,opt
     best_acc = 0
     
     for i in range(epoch):
+        
+        adjust_learning_rate(optimizer,i,learning_rate,lr_steps=lr_steps)
+        
         model, loss, acc = train(device,i,train_dataloader,model,criterion_clf,optimizer,train_logger,train_batch_logger)
         
         ## model save
