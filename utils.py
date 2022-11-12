@@ -104,7 +104,7 @@ class ProgressMeter(object):
 
 def save_checkpoint(state, is_best, config):
 
-    save_date = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+    save_date = datetime.datetime.now().strftime("%Y%m%d")
     model_name = config['model']['model_name']
     model_depth = config['model']['model_depth']
     store_name = model_name + str(model_depth) +'_' + save_date

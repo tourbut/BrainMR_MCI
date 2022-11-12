@@ -25,8 +25,10 @@ def train_epoch(device,train_dataloader,valid_dataloader,model,criterion_clf,opt
         
         adjust_learning_rate(optimizer,i,learning_rate,lr_steps=lr_steps)
         
-        model, loss, acc = train(device,i,train_dataloader,model,criterion_clf,optimizer,train_logger,train_batch_logger)
+        loss, acc = train(device,i,train_dataloader,model,criterion_clf,optimizer,train_logger,train_batch_logger)
         
+        val_loss,val_acc = validation(device,i,valid_dataloader,model,criterion_clf,valid_logger)
+
         ## model save
         if isinstance(model, nn.DataParallel): ## 다중 GPU를 사용한다면
             state_dict = model.module.state_dict() ## model.module 형태로 module.을 제거하고 저장
@@ -34,15 +36,17 @@ def train_epoch(device,train_dataloader,valid_dataloader,model,criterion_clf,opt
             state_dict = model.state_dict() ## 일반저장
 
         state = {
-                'epoch': i,
-                'state_dict': state_dict,
-                'optimizer': optimizer.state_dict(),
-                'loss': loss,
-                'acc': acc
-                }
-        
-        val_loss,val_acc = validation(device,i,valid_dataloader,model,criterion_clf,valid_logger)
-        
+        'epoch': i,
+        'state_dict': state_dict,
+        'optimizer': optimizer.state_dict(),
+        'learning_rate': optimizer.param_groups[0]['lr'],
+        'valid_loss': val_loss,
+        'train_loss': loss,
+        'train_acc': acc,
+        'valid_loss': val_loss,
+        'valid_acc': val_acc
+        }
+
         is_best = val_acc > best_acc
         best_acc = max(val_acc,best_acc)
 
