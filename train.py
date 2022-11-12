@@ -5,8 +5,7 @@ from metrics import accuracy
 
 from utils import *
 
-def train(device, epoch, data_loader, model, criterion, optimizer, 
-                epoch_logger, batch_logger):
+def train(device, epoch, data_loader, model, criterion, optimizer, epoch_logger, batch_logger):
     print('train at epoch {}'.format(epoch))
 
     model.train(True)
@@ -25,7 +24,7 @@ def train(device, epoch, data_loader, model, criterion, optimizer,
         accuracies.update(acc, inputs.size(0))
         losses.update(loss.data, inputs.size(0))
 
-        model.zero_grad()
+        #model.zero_grad()
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
@@ -55,4 +54,4 @@ def train(device, epoch, data_loader, model, criterion, optimizer,
         'acc': accuracies.avg.item(),
         'lr': optimizer.param_groups[0]['lr']
     })
-    return model, losses.avg.item(), accuracies.avg.item()
+    return losses.avg.item(), accuracies.avg.item()
