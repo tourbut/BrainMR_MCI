@@ -29,8 +29,8 @@ def read_dicom_file(source,filepath):
 def preprocessing(image):
     image = ppc.crop_image(image)
     image = ppc.add_pad(image)
-    image = ppc.z_score(image)
     image = ppc.resize(image)
+    image = ppc.z_score(image)
     return image
 
 def process_scan(source, filepath, preprocess= True):
@@ -81,10 +81,11 @@ class MRIDataset(Dataset):
         image = process_scan(img_source,img_path)
         channels.append(image)
         images = np.array(channels)
+        age = self.df_train['age'].iloc[idx]
         label = self.df_labels.iloc[idx].replace('MCI','1').replace('CN','0').replace('AD','2')
         label = int(label)
         
         if self.transform:
             images = self.transform(images)
             
-        return torch.tensor(images).float(), torch.tensor(label)
+        return torch.tensor(images).float(),torch.tensor(age/100).int(), torch.tensor(label)
