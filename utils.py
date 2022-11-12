@@ -3,6 +3,7 @@ import csv
 import matplotlib.pyplot as plt
 import torch
 import shutil
+import datetime
 
 def load_txt(txt_dir, txt_name):
     List = []
@@ -103,9 +104,10 @@ class ProgressMeter(object):
 
 def save_checkpoint(state, is_best, config):
 
+    save_date = datetime.datetime.now().strftime("%Y%m%d_%H%M")
     model_name = config['model']['model_name']
     model_depth = config['model']['model_depth']
-    store_name = model_name + str(model_depth)
+    store_name = model_name + str(model_depth) +'_' + save_date
 
     torch.save(state, '%s/%s_checkpoint.pth' % (config['result_path'], store_name))
     if is_best:
