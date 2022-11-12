@@ -36,16 +36,16 @@ def train_epoch(device,train_dataloader,valid_dataloader,model,criterion_clf,opt
             state_dict = model.state_dict() ## 일반저장
 
         state = {
-        'epoch': i,
-        'state_dict': state_dict,
-        'optimizer': optimizer.state_dict(),
-        'learning_rate': optimizer.param_groups[0]['lr'],
-        'valid_loss': val_loss,
-        'train_loss': loss,
-        'train_acc': acc,
-        'valid_loss': val_loss,
-        'valid_acc': val_acc
-        }
+                'epoch': i,
+                'state_dict': state_dict,
+                'optimizer': optimizer.state_dict(),
+                'learning_rate': optimizer.param_groups[0]['lr'],
+                'valid_loss': val_loss,
+                'train_loss': loss,
+                'train_acc': acc,
+                'valid_loss': val_loss,
+                'valid_acc': val_acc
+                }
 
         is_best = val_acc > best_acc
         best_acc = max(val_acc,best_acc)
