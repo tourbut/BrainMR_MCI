@@ -7,17 +7,17 @@
     "seed":                     1010,
     "result_path":              "result/",
     "dataloader": {
-        "num_workers":          4,
+        "num_workers":          16,
         "pin_memory":           1,
-        "batch_size":           4
+        "batch_size":           16
     },
     "model": {
         "model_name":               "resnet",
         "model_depth":              18
     },
     "train": {
-        "learning_rate":        0.0001,
-        "lr_steps":             [10, 15, 25, 50, 70, 90],
-        "epochs":         10
+        "learning_rate":        0.001,
+        "lr_steps":             [10, 35, 65, 100, 150, 200],
+        "epochs":         300
     }
 }
