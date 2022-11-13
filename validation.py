@@ -5,7 +5,7 @@ from metrics import accuracy
 
 from utils import *
 
-def validation(device, epoch, data_loader, model, criterion, logger):
+def validation(device, epoch, data_loader, model, criterion, logger,age_onoff = True):
     print('valid at epoch {}'.format(epoch))
 
     model.eval()
@@ -13,12 +13,16 @@ def validation(device, epoch, data_loader, model, criterion, logger):
     accuracies = AverageMeter(name='accuracies')
 
     with torch.no_grad():
-        for i, (inputs, targets) in enumerate(data_loader):
+        for i, (inputs, input_age, targets) in enumerate(data_loader):
 
             inputs = Variable(inputs).to(device)
             targets = Variable(targets).to(device)
                 
-            outputs = model(inputs)
+            if age_onoff == True:
+                outputs = model(inputs,input_age)
+            else:
+                outputs = model(inputs)
+                
             loss = criterion(outputs, targets)
             acc = accuracy(outputs.data, targets.data,device=device)
 

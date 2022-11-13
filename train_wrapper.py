@@ -6,7 +6,8 @@ import datetime
 import torch.nn as nn
 from optimizer import adjust_learning_rate
 
-def train_epoch(device,train_dataloader,valid_dataloader,model,criterion_clf,optimizer,config, epoch,learning_rate,lr_steps):
+def train_epoch(device,train_dataloader,valid_dataloader,model
+                ,criterion_clf,optimizer,config, epoch,learning_rate,lr_steps,age_onoff=True):
     
     log_path = config['log_path']
     log_date = datetime.datetime.now().strftime("%Y%m%d_%H%M")
@@ -25,9 +26,10 @@ def train_epoch(device,train_dataloader,valid_dataloader,model,criterion_clf,opt
         
         adjust_learning_rate(optimizer,i,learning_rate,lr_steps=lr_steps)
         
-        loss, acc = train(device,i,train_dataloader,model,criterion_clf,optimizer,train_logger,train_batch_logger)
-        
-        val_loss,val_acc = validation(device,i,valid_dataloader,model,criterion_clf,valid_logger)
+        loss, acc = train(device,i,train_dataloader,model,criterion_clf
+                        ,optimizer,train_logger,train_batch_logger,age_onoff=age_onoff)
+        u
+        val_loss,val_acc = validation(device,i,valid_dataloader,model,criterion_clf,valid_logger,age_onoff=age_onoff)
 
         ## model save
         if isinstance(model, nn.DataParallel): ## 다중 GPU를 사용한다면
