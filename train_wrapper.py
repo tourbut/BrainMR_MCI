@@ -28,7 +28,7 @@ def train_epoch(device,train_dataloader,valid_dataloader,model
         
         loss, acc = train(device,i,train_dataloader,model,criterion_clf
                         ,optimizer,train_logger,train_batch_logger,age_onoff=age_onoff)
-        u
+        
         val_loss,val_acc = validation(device,i,valid_dataloader,model,criterion_clf,valid_logger,age_onoff=age_onoff)
 
         ## model save
