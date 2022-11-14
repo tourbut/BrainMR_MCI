@@ -22,7 +22,7 @@ def train_epoch(device,train_dataloader,valid_dataloader,model
     valid_logger = utils.Logger(os.path.join(log_path, store_name+'_valid.log'),['epoch', 'loss','acc'])
     
     best_acc = 0
-    
+    scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, 'min')
     for i in range(epoch):
         
         #adjust_learning_rate(optimizer,i,learning_rate,lr_steps=lr_steps)
@@ -32,7 +32,7 @@ def train_epoch(device,train_dataloader,valid_dataloader,model
         
         val_loss,val_acc = validation(device,i,valid_dataloader,model,criterion_clf,valid_logger,age_onoff=age_onoff)
 
-        scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, 'min')
+        
         #성능이 향상이 없을 때 learning rate를 감소시킨다
         scheduler.step(val_loss)
         
