@@ -13,7 +13,7 @@
     },
     "model": {
         "model_name":               "resnet",
-        "model_depth":              18
+        "model_depth":              50
     },
     "train": {
         "learning_rate":        0.001,
