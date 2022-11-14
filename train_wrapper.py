@@ -22,7 +22,7 @@ def train_epoch(device,train_dataloader,valid_dataloader,model
     valid_logger = utils.Logger(os.path.join(log_path, store_name+'_valid.log'),['epoch', 'loss','acc'])
     
     best_acc = 0
-    scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, 'min')
+    scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, 'min',patience=3)
     for i in range(epoch):
         
         #adjust_learning_rate(optimizer,i,learning_rate,lr_steps=lr_steps)
