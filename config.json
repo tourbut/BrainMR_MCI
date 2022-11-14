@@ -1,6 +1,6 @@
 {
     "PROJECT_NAME":             "Classification Model of Mild Cognitive Impairment from Brain Imaging",
-    "PATH_DATASET_CSV":         "Dataset/Dataset_min.csv",
+    "PATH_DATASET_CSV":         "Dataset/Dataset_min_gz.csv",
     "log_path":                 "log/",
     "device":                   "gpu",
     "gpus":                     [0,1],
