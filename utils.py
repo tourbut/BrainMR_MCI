@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import torch
 import shutil
 import datetime
+import os
 
 def load_txt(txt_dir, txt_name):
     List = []
@@ -101,14 +102,36 @@ class ProgressMeter(object):
         num_digits = len(str(num_batches // 1))
         fmt = '{:' + str(num_digits) + 'd}'
         return '[' + fmt + '/' + fmt.format(num_batches) + ']'
-
-def save_checkpoint(state, is_best, config):
-
-    save_date = datetime.datetime.now().strftime("%Y%m%d")
+    
+def create_storename(config):
+    log_path = config['result_path']
+    log_date = config['save_datetime'] 
     model_name = config['model']['model_name']
     model_depth = config['model']['model_depth']
-    store_name = model_name + str(model_depth) +'_' + save_date
+    store_name = model_name + str(model_depth) +'_' + log_date
 
-    torch.save(state, '%s/%s_checkpoint.pth' % (config['result_path'], store_name))
+    return log_path,store_name
+
+def save_messgage(config,**kwargs):
+
+    from collections import OrderedDict
+
+    log_path, store_name = create_storename(config)
+    path = os.path.join(log_path,store_name+'.json')
+    json_data = OrderedDict()
+
+    if kwargs:
+        json_data=kwargs
+
+    with open(path, 'w') as outfile:
+        json.dump(json_data, outfile)
+
+
+    
+def save_checkpoint(state, is_best, config):
+
+    log_path, store_name = create_storename(config)
+    
+    torch.save(state, '%s/%s_checkpoint.pth' % (log_path, store_name))
     if is_best:
-        shutil.copyfile('%s/%s_checkpoint.pth' % (config['result_path'], store_name),'%s/%s_best.pth' % (config['result_path'], store_name))
+        shutil.copyfile('%s/%s_checkpoint.pth' % (log_path, store_name),'%s/%s_best.pth' % (log_path, store_name))

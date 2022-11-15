@@ -10,13 +10,7 @@ from torch.optim import lr_scheduler
 def train_epoch(device,train_dataloader,valid_dataloader,model
                 ,criterion_clf,optimizer,config, epoch,learning_rate,lr_steps,age_onoff=True):
     
-    log_path = config['log_path']
-    log_date = datetime.datetime.now().strftime("%Y%m%d_%H%M")
-    model_name = config['model']['model_name']
-    model_depth = config['model']['model_depth']
-    store_name = model_name + str(model_depth)
-    store_name = store_name+'_'+log_date
-
+    log_path, store_name = utils.create_storename(config)
     train_logger = utils.Logger(os.path.join(log_path, store_name+'_train.log'),['epoch', 'loss','acc', 'lr'])
     train_batch_logger = utils.Logger(os.path.join(log_path, store_name+'_train_batch.log'), ['epoch', 'batch', 'iter', 'loss','acc', 'lr'])
     valid_logger = utils.Logger(os.path.join(log_path, store_name+'_valid.log'),['epoch', 'loss','acc'])
