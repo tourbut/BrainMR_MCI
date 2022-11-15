@@ -29,8 +29,8 @@ def test(device, data_loader, model, criterion, logger, age_onoff = True, best_y
             else:
                 outputs = model(inputs)
 
-            pred.append(outputs[0].data.cpu())
-            labels.append(targets[0].data.cpu())    
+            pred.append(outputs[0].data.to(device))
+            labels.append(targets[0].data.to(device))    
 
             loss = criterion(outputs, targets)
             acc = accuracy(outputs.data, targets.data,device=device)
