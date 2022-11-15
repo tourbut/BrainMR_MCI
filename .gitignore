@@ -13,5 +13,5 @@
 
 config.json
 
-result/*.pth
-log/*.log
+*.pth
+*.log
