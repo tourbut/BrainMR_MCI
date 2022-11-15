@@ -6,7 +6,7 @@ import datetime
 import torch.nn as nn
 from optimizer import adjust_learning_rate
 from torch.optim import lr_scheduler
-from test import test
+from model_test import test
 import torch
 
 def train_epoch(device,train_dataloader,valid_dataloader,test_dataloader
