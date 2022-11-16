@@ -185,7 +185,8 @@ class ResNet(nn.Module):
 
         if self.add_last_fc_num > 0 :
             x = torch.cat((x,add_fc), 1)
-            x = self.fc(x)
+            
+        x = self.fc(x)
 
         return x
 
