@@ -43,7 +43,7 @@ def test(device, data_loader, model, criterion, logger, age_onoff = True, best_y
     
     metric = MulticlassConfusionMatrix(num_classes=3)
 
-    ConfusionMatrix = metric(outputs, labels)
+    ConfusionMatrix = metric(pred, labels)
 
     auroc = multiclass_auroc(pred, labels, num_classes=3, average=None, thresholds=None)
 
