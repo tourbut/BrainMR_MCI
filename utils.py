@@ -109,8 +109,10 @@ def create_storename(config):
     model_name = config['model']['model_name']
     model_depth = config['model']['model_depth']
     store_name = model_name + str(model_depth) +'_' + log_date
-
-    return log_path,store_name
+    full_path = os.path.join(log_path,store_name)
+    os.makedirs(full_path, exist_ok = True)
+    
+    return full_path,store_name
 
 def save_messgage(config,**kwargs):
 
