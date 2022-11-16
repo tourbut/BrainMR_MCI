@@ -133,8 +133,7 @@ class ResNet(nn.Module):
         self.layer4 = self._make_layer(
             block, 512, layers[3], shortcut_type, stride=2)
         self.adaptpool = nn.AdaptiveAvgPool3d((1,1,1))
-        self.fc = nn.Linear(512 * block.expansion, num_classes) 
-        self.fc_wite_age = nn.Linear(512 * block.expansion + 1, num_classes) 
+        self.fc_with_age = nn.Linear(512 * block.expansion + 1, num_classes) 
 
         for m in self.modules():
             if isinstance(m, nn.Conv3d):
@@ -181,7 +180,9 @@ class ResNet(nn.Module):
         x = self.adaptpool(x)
         x = x.view(x.size(0), -1)
 
-        x = self.fc(x)
+        age = age.reshape(len(age),1)
+        x = torch.cat((x,age), 1)
+        x = self.fc_with_age(x)
 
         return x
 
