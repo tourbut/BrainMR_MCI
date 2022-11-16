@@ -19,7 +19,7 @@ def train_epoch(device,train_dataloader,valid_dataloader,test_dataloader
     valid_logger = utils.Logger(os.path.join(log_path, store_name+'_valid.log'),['epoch', 'loss','acc'])
     
     best_acc = 0
-    scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, 'min',patience=3)
+    scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, 'max',patience=3)
     for i in range(epoch):
         
         #adjust_learning_rate(optimizer,i,learning_rate,lr_steps=lr_steps)
@@ -31,7 +31,7 @@ def train_epoch(device,train_dataloader,valid_dataloader,test_dataloader
 
         
         #성능이 향상이 없을 때 learning rate를 감소시킨다
-        scheduler.step(val_loss)
+        scheduler.step(val_acc)
         
         ## model save
         if isinstance(model, nn.DataParallel): ## 다중 GPU를 사용한다면
