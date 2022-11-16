@@ -5,24 +5,12 @@ from metrics import accuracy
 
 import utils
 
-import os
-import datetime
-
 from torchmetrics.functional.classification import multiclass_auroc
 from torchmetrics.classification import MulticlassConfusionMatrix
 
-def test(device, data_loader, model, criterion, config,age_onoff = True):
+def test(device, data_loader, model, criterion, logger, age_onoff = True, best_yn=''):
     print('test')
 
-    log_path = config['log_path']
-    log_date = datetime.datetime.now().strftime("%Y%m%d_%H%M")
-    model_name = config['model']['model_name']
-    model_depth = config['model']['model_depth']
-    store_name = model_name + str(model_depth)
-    store_name = store_name+'_'+log_date
-
-    logger = utils.Logger(os.path.join(log_path, store_name+'_train.log'),['epoch', 'loss','acc', 'lr'])
-    
     model.eval()
     losses = utils.AverageMeter(name='losses')
     accuracies = utils.AverageMeter(name='accuracies')
@@ -36,12 +24,13 @@ def test(device, data_loader, model, criterion, config,age_onoff = True):
             targets = Variable(targets).to(device)
                 
             if age_onoff == True:
+                input_age = Variable(input_age).to(device)
                 outputs = model(inputs,input_age)
             else:
                 outputs = model(inputs)
 
-            pred.append(outputs[0].data.cpu())
-            labels.append(targets[0].data.cpu())    
+            pred.append(outputs[0].data.to(device))
+            labels.append(targets[0].data.to(device))    
 
             loss = criterion(outputs, targets)
             acc = accuracy(outputs.data, targets.data,device=device)
@@ -49,7 +38,7 @@ def test(device, data_loader, model, criterion, config,age_onoff = True):
             losses.update(loss.data, inputs.size(0))
             accuracies.update(acc, inputs.size(0))
             
-    pred = torch.stack(pred)
+    pred   = torch.stack(pred)
     labels =  torch.stack(labels)
     
     metric = MulticlassConfusionMatrix(num_classes=3)
@@ -59,6 +48,7 @@ def test(device, data_loader, model, criterion, config,age_onoff = True):
     auroc = multiclass_auroc(pred, labels, num_classes=3, average=None, thresholds=None)
 
     logger.log({
+        'best_yn': best_yn,
         'loss': losses.avg.item(),
         'acc': accuracies.avg.item(),
         'ConfusionMatrix' : ConfusionMatrix,
@@ -68,4 +58,4 @@ def test(device, data_loader, model, criterion, config,age_onoff = True):
 
     print('Loss : {loss.avg:.4f}\t Acc : {acc.avg:.5f}\t'.format(loss=losses, acc=accuracies))
     
-    return losses.avg.item(), accuracies.avg.item(),ConfusionMatrix,auroc
+    return losses.avg.item(), accuracies.avg.item(), ConfusionMatrix, auroc

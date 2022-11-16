@@ -6,17 +6,14 @@ import datetime
 import torch.nn as nn
 from optimizer import adjust_learning_rate
 from torch.optim import lr_scheduler
+from model_test import test
+import torch
 
-def train_epoch(device,train_dataloader,valid_dataloader,model
-                ,criterion_clf,optimizer,config, epoch,learning_rate,lr_steps,age_onoff=True):
+def train_epoch(device,train_dataloader,valid_dataloader,test_dataloader
+                ,model,criterion_clf,optimizer
+                ,config, epoch,age_onoff=True):
     
-    log_path = config['log_path']
-    log_date = datetime.datetime.now().strftime("%Y%m%d_%H%M")
-    model_name = config['model']['model_name']
-    model_depth = config['model']['model_depth']
-    store_name = model_name + str(model_depth)
-    store_name = store_name+'_'+log_date
-
+    log_path, store_name = utils.create_storename(config)
     train_logger = utils.Logger(os.path.join(log_path, store_name+'_train.log'),['epoch', 'loss','acc', 'lr'])
     train_batch_logger = utils.Logger(os.path.join(log_path, store_name+'_train_batch.log'), ['epoch', 'batch', 'iter', 'loss','acc', 'lr'])
     valid_logger = utils.Logger(os.path.join(log_path, store_name+'_valid.log'),['epoch', 'loss','acc'])
@@ -59,4 +56,13 @@ def train_epoch(device,train_dataloader,valid_dataloader,model
 
         #모델 세이브
         utils.save_checkpoint(state, is_best, config)
+    
         
+    test_logger = utils.Logger(os.path.join(log_path, store_name+'_test.log'),['best_yn','loss', 'acc','ConfusionMatrix','auroc'])
+    #last model test
+    loss, accu, CFM, auroc = test(device,test_dataloader,model,criterion_clf, test_logger, age_onoff = age_onoff,best_yn=False)
+
+    #best model test
+    checkpoint = torch.load(os.path.join(log_path, store_name+'_best.pth', map_location=device))
+    model.load_state_dict(checkpoint['state_dict'])
+    loss, accu, CFM, auroc = test(device,test_dataloader,model,criterion_clf, test_logger, age_onoff = age_onoff,best_yn=True)    

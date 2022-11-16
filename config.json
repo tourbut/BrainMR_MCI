@@ -1,23 +1,24 @@
 {
     "PROJECT_NAME":             "Classification Model of Mild Cognitive Impairment from Brain Imaging",
-    "PATH_DATASET_CSV":         "Dataset/Dataset_min.csv",
+    "PATH_DATASET_CSV":         "Dataset/Dataset_min_gz.csv",
     "log_path":                 "log/",
+    "result_path":              "result/",
+    "save_datetime":            "",
     "device":                   "gpu",
     "gpus":                     [0,1],
     "seed":                     1010,
-    "result_path":              "result/",
     "dataloader": {
-        "num_workers":          16,
+        "num_workers":          4,
         "pin_memory":           1,
-        "batch_size":           16
+        "batch_size":           4
     },
     "model": {
         "model_name":               "resnet",
         "model_depth":              50
     },
     "train": {
-        "learning_rate":        0.001,
+        "learning_rate":        0.9,
         "lr_steps":             [10, 35, 65, 100, 150, 200],
-        "epochs":         300
+        "epochs":         100
     }
 }
