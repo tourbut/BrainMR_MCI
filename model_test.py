@@ -41,11 +41,11 @@ def test(device, data_loader, model, criterion, logger, age_onoff = True, best_y
     pred   = torch.stack(pred).to(device)
     labels =  torch.stack(labels).to(device)
     
-    metric = MulticlassConfusionMatrix(num_classes=3)
+    metric = MulticlassConfusionMatrix(num_classes=3).to(device)
 
     ConfusionMatrix = metric(pred, labels)
 
-    auroc = multiclass_auroc(pred, labels, num_classes=3, average=None, thresholds=None)
+    auroc = multiclass_auroc(pred, labels, num_classes=3, average=None, thresholds=None).to(device)
 
     logger.log({
         'best_yn': best_yn,
