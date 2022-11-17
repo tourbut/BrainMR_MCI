@@ -10,7 +10,7 @@ def crop_image(image):
     top_left = np.min(coords, axis=1)
     bottom_right = np.max(coords, axis=1)
     # Remove the background
-    croped_image = image[top_left[0]:bottom_right[0],top_left[1]:bottom_right[1],:]
+    croped_image = image[top_left[0]:bottom_right[0],top_left[1]:bottom_right[1],top_left[2]:bottom_right[2]]
     
     return croped_image
 
