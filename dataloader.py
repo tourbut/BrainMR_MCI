@@ -88,4 +88,4 @@ class MRIDataset(Dataset):
         if self.transform:
             images = self.transform(images)
             
-        return torch.tensor(images).float(),torch.tensor(age/100).int(), torch.tensor(label)
+        return torch.tensor(images).float(),torch.tensor(age/100).float(), torch.tensor(label).int()
