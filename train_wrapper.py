@@ -63,6 +63,6 @@ def train_epoch(device,train_dataloader,valid_dataloader,test_dataloader
     loss, accu, CFM, auroc = test(device,test_dataloader,model,criterion_clf, test_logger, age_onoff = age_onoff,best_yn=False)
 
     #best model test
-    checkpoint = torch.load(os.path.join(log_path, store_name+'_best.pth', map_location=device))
+    checkpoint = torch.load(os.path.join(log_path, store_name+'_best.pth'))
     model.load_state_dict(checkpoint['state_dict'])
     loss, accu, CFM, auroc = test(device,test_dataloader,model,criterion_clf, test_logger, age_onoff = age_onoff,best_yn=True)    
