@@ -38,8 +38,8 @@ def test(device, data_loader, model, criterion, logger, age_onoff = True, best_y
             losses.update(loss.data, inputs.size(0))
             accuracies.update(acc, inputs.size(0))
             
-    pred   = torch.stack(pred)
-    labels =  torch.stack(labels)
+    pred   = torch.stack(pred).to(device)
+    labels =  torch.stack(labels).to(device)
     
     metric = MulticlassConfusionMatrix(num_classes=3)
 
