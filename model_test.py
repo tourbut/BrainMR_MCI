@@ -29,7 +29,7 @@ def test(device, data_loader, model, criterion, logger, age_onoff = True, best_y
             else:
                 outputs = model(inputs)
 
-            for j in len(outputs):
+            for j in range(len(outputs)):
                 pred.append(outputs[j].data.to(device))
                 labels.append(targets[j].data.to(device))    
             loss = criterion(outputs, targets)

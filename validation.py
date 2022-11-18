@@ -36,7 +36,7 @@ def validation(device, epoch, data_loader, model, criterion, logger,age_onoff = 
             losses.update(loss.data, inputs.size(0))
             accuracies.update(acc, inputs.size(0))
 
-            for j in len(outputs):
+            for j in range(len(outputs)):
                 pred.append(outputs[j].data.to(device))
                 labels.append(targets[j].data.to(device))    
             
