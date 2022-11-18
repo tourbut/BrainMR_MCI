@@ -184,6 +184,7 @@ class ResNet(nn.Module):
         x = x.view(x.size(0), -1)
 
         if self.add_last_fc_num > 0 :
+            add_fc = add_fc.reshape(len(add_fc),1)
             x = torch.cat((x,add_fc), 1)
             
         x = self.fc(x)
