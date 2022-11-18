@@ -27,10 +27,12 @@ def read_dicom_file(source,filepath):
     return image
 
 def preprocessing(image):
+    #image = ppc.window_image(image,600,1200)
     image = ppc.crop_image(image)
     image = ppc.add_pad(image)
-    image = ppc.resize(image)
-    image = ppc.z_score(image)
+    image = ppc.resize(image,desired_width=128,desired_height=128,desired_depth=128)
+    #image = ppc.z_score(image)
+    image = ppc.minmax(image)
     return image
 
 def process_scan(source, filepath, preprocess= True):

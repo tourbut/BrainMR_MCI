@@ -14,14 +14,14 @@ def crop_image(image):
     
     return croped_image
 
-def add_pad(image, new_height=256, new_width=256):
+def add_pad(image, pad_top = 10,pad_left = 10,pad_depth=10):
     
     height, width, depth = image.shape
-    final_image = np.zeros((new_height, new_width, depth))
-    pad_left = int((new_width - width) // 2)
-    pad_top = int((new_height - height) // 2)
-    # Replace the pixels with the image's pixels
-    final_image[pad_top:pad_top + height, pad_left:pad_left + width,:] = image
+    new_height = height + pad_top*2
+    new_width = width + pad_left*2
+    new_depth = depth + pad_depth*2
+    final_image = np.zeros((new_height, new_width, new_depth))
+    final_image[pad_top:pad_top + height, pad_left:pad_left + width,pad_depth:depth + pad_depth] = image
     
     return final_image
 
@@ -34,6 +34,15 @@ def z_score(image):
     mean = image[logical_mask].mean()
     std = image[logical_mask].std()
     return (image-mean)/std
+
+def minmax(image):
+    """
+    min-max nomalization
+    """
+    min_value = np.min(image)
+    max_value = np.max(image)
+    output =  (image - min_value) / (max_value - min_value)
+    return output
 
 def normalize(volume, min = -500, max = 700):
     """Normalize the volume"""
