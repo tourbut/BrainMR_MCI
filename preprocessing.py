@@ -44,6 +44,15 @@ def normalize(volume, min = -500, max = 700):
     volume = volume.astype("float32")
     return volume
 
+def window_image(image, window_center, window_width):
+    img_min = window_center - window_width // 2
+    img_max = window_center + window_width // 2
+    window_image = image.copy()
+    window_image[window_image < img_min] = img_min
+    window_image[window_image > img_max] = img_max
+    
+    return window_image
+
 def resize(img,desired_width=128,desired_height=128,desired_depth=128):
 
     current_depth = img.shape[-1]

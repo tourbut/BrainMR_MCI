@@ -17,8 +17,8 @@ def validation(device, epoch, data_loader, model, criterion, logger,age_onoff = 
 
             inputs = Variable(inputs).to(device)
             targets = Variable(targets).to(device)
-                
             if age_onoff == True:
+                input_age = Variable(input_age).to(device)
                 outputs = model(inputs,input_age)
             else:
                 outputs = model(inputs)
