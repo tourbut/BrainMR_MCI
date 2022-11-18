@@ -5,14 +5,21 @@ from metrics import accuracy
 
 from utils import *
 
+from torchmetrics.functional.classification import multiclass_auroc
+from torchmetrics.classification import MulticlassConfusionMatrix
+
 def validation(device, epoch, data_loader, model, criterion, logger,age_onoff = True):
     print('valid at epoch {}'.format(epoch))
 
-    model.eval()
+    
     losses = AverageMeter(name='losses')
     accuracies = AverageMeter(name='accuracies')
 
+    pred = []
+    labels = []
+    
     with torch.no_grad():
+        model.eval()
         for i, (inputs, input_age, targets) in enumerate(data_loader):
 
             inputs = Variable(inputs).to(device)
@@ -29,7 +36,9 @@ def validation(device, epoch, data_loader, model, criterion, logger,age_onoff = 
             losses.update(loss.data, inputs.size(0))
             accuracies.update(acc, inputs.size(0))
 
-
+            pred.append(outputs[0].data.to(device))
+            labels.append(targets[0].data.to(device))    
+            
             if i % 10 == 0:
                 print('Epoch: [{0}][{1}/{2}]\t '
                     'Loss : {loss.avg:.4f}\t'
@@ -40,6 +49,16 @@ def validation(device, epoch, data_loader, model, criterion, logger,age_onoff = 
                         loss=losses,
                         acc=accuracies))
 
+    
+    pred   = torch.stack(pred).to(device)
+    labels =  torch.stack(labels).to(device)
+    
+    metric = MulticlassConfusionMatrix(num_classes=3).to(device)
+
+    ConfusionMatrix = metric(pred, labels)
+
+    auroc = multiclass_auroc(pred, labels, num_classes=3, average=None, thresholds=None).to(device)
+    
     logger.log({
         'epoch': epoch,
         'loss': losses.avg.item(),
@@ -51,5 +70,7 @@ def validation(device, epoch, data_loader, model, criterion, logger,age_onoff = 
             epoch,
             loss=losses,
             acc=accuracies))
+    print(ConfusionMatrix)
+    print(auroc)
     
     return losses.avg.item(), accuracies.avg.item()
