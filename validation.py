@@ -36,8 +36,9 @@ def validation(device, epoch, data_loader, model, criterion, logger,age_onoff = 
             losses.update(loss.data, inputs.size(0))
             accuracies.update(acc, inputs.size(0))
 
-            pred.append(outputs[0].data.to(device))
-            labels.append(targets[0].data.to(device))    
+            for j in len(outputs):
+                pred.append(outputs[j].data.to(device))
+                labels.append(targets[j].data.to(device))    
             
             if i % 10 == 0:
                 print('Epoch: [{0}][{1}/{2}]\t '

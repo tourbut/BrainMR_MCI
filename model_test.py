@@ -29,9 +29,9 @@ def test(device, data_loader, model, criterion, logger, age_onoff = True, best_y
             else:
                 outputs = model(inputs)
 
-            pred.append(outputs[0].data.to(device))
-            labels.append(targets[0].data.to(device))    
-
+            for j in len(outputs):
+                pred.append(outputs[j].data.to(device))
+                labels.append(targets[j].data.to(device))    
             loss = criterion(outputs, targets)
             acc = accuracy(outputs.data, targets.data,device=device)
 
@@ -57,5 +57,6 @@ def test(device, data_loader, model, criterion, logger, age_onoff = True, best_y
 
 
     print('Loss : {loss.avg:.4f}\t Acc : {acc.avg:.5f}\t'.format(loss=losses, acc=accuracies))
-    
+    print(ConfusionMatrix)
+    print(auroc)
     return losses.avg.item(), accuracies.avg.item(), ConfusionMatrix, auroc
