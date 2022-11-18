@@ -11,13 +11,14 @@ from torchmetrics.classification import MulticlassConfusionMatrix
 def test(device, data_loader, model, criterion, logger, age_onoff = True, best_yn=''):
     print('test')
 
-    model.eval()
+    
     losses = utils.AverageMeter(name='losses')
     accuracies = utils.AverageMeter(name='accuracies')
 
     pred = []
     labels = []
     with torch.no_grad():
+        model.eval()
         for i, (inputs, input_age, targets) in enumerate(data_loader):
 
             inputs = Variable(inputs).to(device)
