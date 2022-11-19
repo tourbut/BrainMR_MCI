@@ -35,12 +35,12 @@ def z_score(image):
     std = image[logical_mask].std()
     return (image-mean)/std
 
-def minmax(image):
+def minmax(image,min_percentile = 5,max_percentile=95):
     """
     min-max nomalization
     """
-    min_value = np.min(image)
-    max_value = np.max(image)
+    min_value = np.percentile(image,min_percentile)
+    max_value = np.percentile(image,max_percentile)
     output =  (image - min_value) / (max_value - min_value)
     return output
 
