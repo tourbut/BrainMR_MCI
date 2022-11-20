@@ -16,7 +16,7 @@ def train_epoch(device,train_dataloader,valid_dataloader,test_dataloader
     log_path, store_name = utils.create_storename(config)
     train_logger = utils.Logger(os.path.join(log_path, store_name+'_train.log'),['epoch', 'loss','acc', 'lr'])
     train_batch_logger = utils.Logger(os.path.join(log_path, store_name+'_train_batch.log'), ['epoch', 'batch', 'iter', 'loss','acc', 'lr'])
-    valid_logger = utils.Logger(os.path.join(log_path, store_name+'_valid.log'),['epoch', 'loss','acc'])
+    valid_logger = utils.Logger(os.path.join(log_path, store_name+'_valid.log'),['epoch', 'loss','acc','ConfusionMatrix','auroc'])
     
     best_acc = 0
     scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, 'max',patience=3)

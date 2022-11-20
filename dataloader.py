@@ -32,7 +32,7 @@ def preprocessing(image):
     image = ppc.add_pad(image)
     image = ppc.resize(image,desired_width=128,desired_height=128,desired_depth=128)
     #image = ppc.z_score(image)
-    image = ppc.minmax(image)
+    image = ppc.minmax(image,min_percentile = 5,max_percentile=95)
     return image
 
 def process_scan(source, filepath, preprocess= True):

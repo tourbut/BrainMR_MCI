@@ -63,7 +63,9 @@ def validation(device, epoch, data_loader, model, criterion, logger,age_onoff = 
     logger.log({
         'epoch': epoch,
         'loss': losses.avg.item(),
-        'acc': accuracies.avg.item()
+        'acc': accuracies.avg.item(),
+        'ConfusionMatrix' : ConfusionMatrix,
+        'auroc':auroc
     })
     print('Epoch: [{0}]\t '
         'Loss : {loss.avg:.4f}\t'
