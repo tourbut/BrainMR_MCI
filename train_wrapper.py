@@ -19,7 +19,7 @@ def train_epoch(device,train_dataloader,valid_dataloader,test_dataloader
     valid_logger = utils.Logger(os.path.join(log_path, store_name+'_valid.log'),['epoch', 'loss','acc','ConfusionMatrix','auroc'])
     
     best_acc = 0
-    scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, 'max',patience=3)
+    scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, 'max',factor=0.7, patience=5)
     for i in range(epoch):
         
         #adjust_learning_rate(optimizer,i,learning_rate,lr_steps=lr_steps)
