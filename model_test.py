@@ -6,7 +6,8 @@ from metrics import accuracy
 import utils
 
 from torchmetrics.functional.classification import multiclass_auroc
-from torchmetrics.classification import MulticlassConfusionMatrix
+from torchmetrics.classification import MulticlassConfusionMatrix,MulticlassROC
+
 
 def test(device, data_loader, model, criterion, logger, age_onoff = True, best_yn=''):
     print('test')
@@ -47,12 +48,18 @@ def test(device, data_loader, model, criterion, logger, age_onoff = True, best_y
 
     auroc = multiclass_auroc(pred, labels, num_classes=3, average=None, thresholds=None).to(device)
 
+    roc_metric = MulticlassROC(num_classes=3, thresholds=None).to(device)
+    fpr, tpr, thresholds = roc_metric(pred, labels)
+    
     logger.log({
         'best_yn': best_yn,
         'loss': losses.avg.item(),
         'acc': accuracies.avg.item(),
-        'ConfusionMatrix' : ConfusionMatrix,
-        'auroc' : auroc
+        'ConfusionMatrix' : ConfusionMatrix.tolist(),
+        'auroc' : auroc.tolist(),
+        'fpr'   : fpr.tolist(),
+        'tpr'   : tpr.tolist(),
+        'thresholds' : thresholds.tolist()
     })
 
 

@@ -16,7 +16,7 @@ def train_epoch(device,train_dataloader,valid_dataloader,test_dataloader
     log_path, store_name = utils.create_storename(config)
     train_logger = utils.Logger(os.path.join(log_path, store_name+'_train.log'),['epoch', 'loss','acc', 'lr'])
     train_batch_logger = utils.Logger(os.path.join(log_path, store_name+'_train_batch.log'), ['epoch', 'batch', 'iter', 'loss','acc', 'lr'])
-    valid_logger = utils.Logger(os.path.join(log_path, store_name+'_valid.log'),['epoch', 'loss','acc','ConfusionMatrix','auroc'])
+    valid_logger = utils.Logger(os.path.join(log_path, store_name+'_valid.log'),['epoch', 'loss','acc','ConfusionMatrix','auroc','fpr','tpr','thresholds'])
     
     best_acc = 0
     scheduler = lr_scheduler.ReduceLROnPlateau(optimizer, 'max',factor=0.7, patience=5)
@@ -57,8 +57,7 @@ def train_epoch(device,train_dataloader,valid_dataloader,test_dataloader
         #모델 세이브
         utils.save_checkpoint(state, is_best, config)
     
-        
-    test_logger = utils.Logger(os.path.join(log_path, store_name+'_test.log'),['best_yn','loss', 'acc','ConfusionMatrix','auroc'])
+    test_logger = utils.Logger(os.path.join(log_path, store_name+'_test.log'),['best_yn','loss', 'acc','ConfusionMatrix','auroc','fpr','tpr','thresholds'])
     #last model test
     loss, accu, CFM, auroc = test(device,test_dataloader,model,criterion_clf, test_logger, age_onoff = age_onoff,best_yn=False)
 
