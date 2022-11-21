@@ -62,6 +62,13 @@ def validation(device, epoch, data_loader, model, criterion, logger,age_onoff = 
     
     roc_metric = MulticlassROC(num_classes=3, thresholds=None).to(device)
     fpr, tpr, thresholds = roc_metric(pred, labels)
+    _fpr = []
+    _tpr = []
+    _thresholds = []
+    for i in range(3):
+        _fpr.append(fpr[0].tolist())
+        _tpr.append(tpr[0].tolist())
+        _thresholds.append(thresholds[0].tolist())
     
     logger.log({
         'epoch': epoch,
@@ -69,9 +76,9 @@ def validation(device, epoch, data_loader, model, criterion, logger,age_onoff = 
         'acc': accuracies.avg.item(),
         'ConfusionMatrix' : ConfusionMatrix.tolist(),
         'auroc' : auroc.tolist(),
-        'fpr'   : fpr.tolist(),
-        'tpr'   : tpr.tolist(),
-        'thresholds' : thresholds.tolist()
+        'fpr'   : fpr,
+        'tpr'   : tpr,
+        'thresholds' : thresholds
     })
     print('Epoch: [{0}]\t '
         'Loss : {loss.avg:.4f}\t'
