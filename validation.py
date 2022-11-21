@@ -64,7 +64,7 @@ def validation(device, epoch, data_loader, model, criterion, logger,age_onoff = 
     fpr, tpr, thresholds = roc_metric(pred, labels)
     
     logger.log({
-        'best_yn': best_yn,
+        'epoch': epoch,
         'loss': losses.avg.item(),
         'acc': accuracies.avg.item(),
         'ConfusionMatrix' : ConfusionMatrix.tolist(),
