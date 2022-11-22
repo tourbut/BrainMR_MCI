@@ -63,9 +63,9 @@ def test(device, data_loader, model, criterion, logger, age_onoff = True, best_y
         'acc': accuracies.avg.item(),
         'ConfusionMatrix' : ConfusionMatrix.tolist(),
         'auroc' : auroc.tolist(),
-        'fpr'   : fpr,
-        'tpr'   : tpr,
-        'thresholds' : thresholds
+        'fpr'   : _fpr,
+        'tpr'   : _tpr,
+        'thresholds' : _thresholds
     })
 
 

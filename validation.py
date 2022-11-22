@@ -76,9 +76,9 @@ def validation(device, epoch, data_loader, model, criterion, logger,age_onoff = 
         'acc': accuracies.avg.item(),
         'ConfusionMatrix' : ConfusionMatrix.tolist(),
         'auroc' : auroc.tolist(),
-        'fpr'   : fpr,
-        'tpr'   : tpr,
-        'thresholds' : thresholds
+        'fpr'   : _fpr,
+        'tpr'   : _tpr,
+        'thresholds' : _thresholds
     })
     print('Epoch: [{0}]\t '
         'Loss : {loss.avg:.4f}\t'
