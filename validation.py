@@ -66,9 +66,9 @@ def validation(device, epoch, data_loader, model, criterion, logger,age_onoff = 
     _tpr = []
     _thresholds = []
     for i in range(3):
-        _fpr.append(fpr[0].tolist())
-        _tpr.append(tpr[0].tolist())
-        _thresholds.append(thresholds[0].tolist())
+        _fpr.append(fpr[i].tolist())
+        _tpr.append(tpr[i].tolist())
+        _thresholds.append(thresholds[i].tolist())
     
     logger.log({
         'epoch': epoch,

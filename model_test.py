@@ -54,9 +54,9 @@ def test(device, data_loader, model, criterion, logger, age_onoff = True, best_y
     _tpr = []
     _thresholds = []
     for i in range(3):
-        _fpr.append(fpr[0].tolist())
-        _tpr.append(tpr[0].tolist())
-        _thresholds.append(thresholds[0].tolist())
+        _fpr.append(fpr[i].tolist())
+        _tpr.append(tpr[i].tolist())
+        _thresholds.append(thresholds[i].tolist())
     logger.log({
         'best_yn': best_yn,
         'loss': losses.avg.item(),
@@ -72,4 +72,4 @@ def test(device, data_loader, model, criterion, logger, age_onoff = True, best_y
     print('Loss : {loss.avg:.4f}\t Acc : {acc.avg:.5f}\t'.format(loss=losses, acc=accuracies))
     print(ConfusionMatrix)
     print(auroc)
-    return losses.avg.item(), accuracies.avg.item(), ConfusionMatrix, auroc
+    return losses.avg.item(), accuracies.avg.item(), ConfusionMatrix, auroc,_fpr,_tpr,_thresholds
