@@ -8,7 +8,7 @@ from utils import *
 from torchmetrics.functional.classification import multiclass_auroc
 from torchmetrics.classification import MulticlassConfusionMatrix,MulticlassROC
 
-def validation(device, epoch, data_loader, model, criterion, logger,age_onoff = True):
+def validation(device, epoch, data_loader, model, criterion, logger,age_onoff = True,num_classes=3):
     print('valid at epoch {}'.format(epoch))
 
     
@@ -54,13 +54,13 @@ def validation(device, epoch, data_loader, model, criterion, logger,age_onoff = 
     pred   = torch.stack(pred).to(device)
     labels =  torch.stack(labels).to(device)
     
-    metric = MulticlassConfusionMatrix(num_classes=3).to(device)
+    metric = MulticlassConfusionMatrix(num_classes=num_classes).to(device)
 
     ConfusionMatrix = metric(pred, labels)
 
-    auroc = multiclass_auroc(pred, labels, num_classes=3, average=None, thresholds=None).to(device)
+    auroc = multiclass_auroc(pred, labels, num_classes=num_classes, average=None, thresholds=None).to(device)
     
-    roc_metric = MulticlassROC(num_classes=3, thresholds=None).to(device)
+    roc_metric = MulticlassROC(num_classes=num_classes, thresholds=None).to(device)
     fpr, tpr, thresholds = roc_metric(pred, labels)
     _fpr = []
     _tpr = []

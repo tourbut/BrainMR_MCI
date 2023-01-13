@@ -11,7 +11,7 @@ import torch
 
 def train_epoch(device,train_dataloader,valid_dataloader,test_dataloader
                 ,model,criterion_clf,optimizer
-                ,config, epoch,age_onoff=True):
+                ,config, epoch,age_onoff=True,num_classes=3):
     
     log_path, store_name = utils.create_storename(config)
     train_logger = utils.Logger(os.path.join(log_path, store_name+'_train.log'),['epoch', 'loss','acc', 'lr'])
@@ -27,7 +27,7 @@ def train_epoch(device,train_dataloader,valid_dataloader,test_dataloader
         loss, acc = train(device,i,train_dataloader,model,criterion_clf
                         ,optimizer,train_logger,train_batch_logger,age_onoff=age_onoff)
         
-        val_loss,val_acc = validation(device,i,valid_dataloader,model,criterion_clf,valid_logger,age_onoff=age_onoff)
+        val_loss,val_acc = validation(device,i,valid_dataloader,model,criterion_clf,valid_logger,age_onoff=age_onoff,num_classes=num_classes)
 
         
         #성능이 향상이 없을 때 learning rate를 감소시킨다

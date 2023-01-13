@@ -91,3 +91,29 @@ class MRIDataset(Dataset):
             images = self.transform(images)
             
         return torch.tensor(images).float(),torch.tensor(age/100).float(), torch.tensor(label)
+    
+class MRIDataset_class2(Dataset):
+    def __init__(self, dataset,labels,transform=None):
+        self.df_train = dataset[['source','path','filename','age']]
+        self.df_labels = labels
+        self.transform = transform
+
+    def __len__(self):
+        return len(self.df_train)
+
+    def __getitem__(self, idx):
+        img_path = self.df_train['path'].iloc[idx]
+        img_source = self.df_train['source'].iloc[idx]
+
+        channels = []
+        image = process_scan(img_source,img_path)
+        channels.append(image)
+        images = np.array(channels)
+        age = self.df_train['age'].iloc[idx]
+        label = self.df_labels.iloc[idx].replace('CN','0').replace('MCI','1').replace('AD','1')
+        label = int(label)
+        
+        if self.transform:
+            images = self.transform(images)
+            
+        return torch.tensor(images).float(),torch.tensor(age/100).float(), torch.tensor(label)
